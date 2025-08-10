@@ -6,7 +6,9 @@ create table user_details(
 	id int auto_increment primary key comment "Unique identifier for the user details",
     name varchar(250) not null,
     address varchar(500),
-    phone_number varchar(30)
+    phone_number varchar(30),
+    status varchar(1) comment 'A=Active, I=Inactive',
+    constraint status_chk check (status in ('A','I'))
 );
 
 
@@ -14,7 +16,7 @@ create table driver_details(
 	id int auto_increment primary key comment "Unique identifier for the user details",
 	license_number varchar(50) unique key,
     expiry_date date,
-    age int,
+    dob date,
     gender varchar(1) comment "M = Male, F = Female, O = Others",
     user_id int,
     constraint gender_chk check (gender in ('M','F','O')),
