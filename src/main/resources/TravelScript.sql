@@ -33,7 +33,9 @@ create table vehicle_details(
     tax_expiry_date date,
     rc_expiry_date date,
     insurance_expiry_date date,
-    constraint ac_chk check (ac in ('Y','N'))
+    status varchar(1) comment 'A=Active, I=Inactive',
+    constraint ac_chk check (ac in ('Y','N')),
+    constraint status_chk check (status in ('A','I'))
 );
 
 create table trip_details (
