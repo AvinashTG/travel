@@ -80,3 +80,11 @@ create table payment_details(
     CONSTRAINT trip_id_fk FOREIGN KEY (trip_id) REFERENCES trip_details(id),
     constraint payment_for_chk check (payment_for in('DRV','CUS','TAX','RC','SRV','OT'))
 );
+
+CREATE TABLE `app_user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(250) NOT NULL,
+  `password` varchar(250) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ;
