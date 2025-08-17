@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/travel")
+@RequestMapping
 @Slf4j
 @CrossOrigin
 @RequiredArgsConstructor
@@ -27,5 +27,4 @@ public class UserDetailsController {
         log.debug("User Details");
         return userDetailsService.addUser(userDetails);
     }
-
 }
