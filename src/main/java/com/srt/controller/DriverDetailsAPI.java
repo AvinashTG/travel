@@ -22,4 +22,10 @@ public class DriverDetailsAPI {
         log.info("Driver details saved with ID: {}", id);
         return id;
     }
+
+    @PostMapping("/update-driver-details")
+    public DriverDetails updateDriverDetails(@RequestBody DriverDetails driverDetails) {
+        log.info("updateDriverDetails()");
+        return driverDetailsService.updateDriverDetails(driverDetails);
+    }
 }
