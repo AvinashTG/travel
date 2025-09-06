@@ -23,34 +23,48 @@ public class DriverDetailsService {
         return saved.getId();
     }
 
-    public DriverDetails updateDriverDetails(DriverDetails driverDetails) {
-        log.info("Updating driver details: {}", driverDetails);
+    public DriverDetails updateDriverDetails(DriverDetails inputDriverDetails) {
+        log.info("Updating driver details: {}", inputDriverDetails);
 
         // Check if the driver details exist before updating
-        if (Objects.isNull(driverDetails.getId())) {
+        if (Objects.isNull(inputDriverDetails.getId())) {
             throw new IllegalArgumentException("Driver details ID must not be null for update");
         }
 
-        final var existingDetails = driverDetailsRepo.findById(driverDetails.getId())
-                .orElseThrow(() -> new RuntimeException("Driver details not found for ID: " + driverDetails.getId()));
+        final var existingDetails = driverDetailsRepo.findById(inputDriverDetails.getId())
+                .orElseThrow(() -> new RuntimeException("Driver details not found for ID: " + inputDriverDetails.getId()));
         // Check if existing details license number matches
-        if (!existingDetails.getLicenseNumber().equals(driverDetails.getLicenseNumber())) {
-            throw new IllegalArgumentException("License number doesn't match for ID: " + driverDetails.getId());
+        if (!existingDetails.getLicenseNumber().equals(inputDriverDetails.getLicenseNumber())) {
+            throw new IllegalArgumentException("License number doesn't match for ID: " + inputDriverDetails.getId());
         }
 
         // Throw error if expiry date is in the past
-        if (Objects.nonNull(driverDetails.getExpiryDate()) && driverDetails.getExpiryDate().isBefore(LocalDate.now())) {
+        if (Objects.nonNull(inputDriverDetails.getExpiryDate()) && inputDriverDetails.getExpiryDate().isBefore(LocalDate.now())) {
             throw new IllegalArgumentException("Expiry date cannot be in the past");
         }
-        existingDetails.setExpiryDate(driverDetails.getExpiryDate());
 
         // Throw error if date of birth is in the future
-        if (Objects.nonNull(driverDetails.getDob()) && driverDetails.getDob().isAfter(LocalDate.now())) {
+        if (Objects.nonNull(inputDriverDetails.getDob()) && inputDriverDetails.getDob().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Date of birth cannot be in the future");
         }
-        existingDetails.setDob(driverDetails.getDob());
-        existingDetails.setGender(driverDetails.getGender());
-        existingDetails.setUserId(driverDetails.getUserId());
+
+        // Update expiry date if provided
+        if (Objects.nonNull(inputDriverDetails.getExpiryDate())) {
+            existingDetails.setExpiryDate(inputDriverDetails.getExpiryDate());
+        }
+        // Update dob if provided
+        if (Objects.nonNull(inputDriverDetails.getDob())) {
+            existingDetails.setDob(inputDriverDetails.getDob());
+        }
+        // Update gender if provided
+        if (Objects.nonNull(inputDriverDetails.getGender())) {
+            existingDetails.setGender(inputDriverDetails.getGender());
+        }
+        // Update userId if provided
+        if (Objects.nonNull(inputDriverDetails.getUserId())) {
+            existingDetails.setUserId(inputDriverDetails.getUserId());
+        }
+
         return driverDetailsRepo.save(existingDetails);
     }
 }
