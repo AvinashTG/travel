@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 
 @RestController
 @RequestMapping
@@ -20,5 +19,11 @@ public class VehicleDetailsController {
     public VehicleDetails addVehicle(@RequestBody VehicleDetails vehicleDetails){
         log.debug("vehicle details:");
         return vehicleDetailsService.addVehicle(vehicleDetails);
+    }
+
+    @PostMapping("/update-vehicle-details")
+    public VehicleDetails updateVehicleDetails(@RequestBody VehicleDetails vehicleDetails){
+        log.debug("updateVehicleDetails()");
+        return vehicleDetailsService.updateVehicleDetails(vehicleDetails);
     }
 }
