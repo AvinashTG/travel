@@ -48,22 +48,19 @@ public class DriverDetailsService {
             throw new IllegalArgumentException("Date of birth cannot be in the future");
         }
 
-        // Update expiry date if provided
-        if (Objects.nonNull(inputDriverDetails.getExpiryDate())) {
-            existingDetails.setExpiryDate(inputDriverDetails.getExpiryDate());
-        }
         // Update dob if provided
         if (Objects.nonNull(inputDriverDetails.getDob())) {
             existingDetails.setDob(inputDriverDetails.getDob());
+        }
+        // Update expiry date if provided
+        if (Objects.nonNull(inputDriverDetails.getExpiryDate())) {
+            existingDetails.setExpiryDate(inputDriverDetails.getExpiryDate());
         }
         // Update gender if provided
         if (Objects.nonNull(inputDriverDetails.getGender())) {
             existingDetails.setGender(inputDriverDetails.getGender());
         }
-        // Update userId if provided
-        if (Objects.nonNull(inputDriverDetails.getUserId())) {
-            existingDetails.setUserId(inputDriverDetails.getUserId());
-        }
+
 
         return driverDetailsRepo.save(existingDetails);
     }
