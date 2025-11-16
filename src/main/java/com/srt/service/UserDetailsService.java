@@ -1,9 +1,15 @@
 package com.srt.service;
 
+import com.srt.builder.SpecificationBuilder;
 import com.srt.entities.UserDetails;
+import com.srt.model.ServerSideGetRowsRequest;
 import com.srt.repository.UserDetailsRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,5 +30,12 @@ public class UserDetailsService {
         final UserDetails saved = userDetailsRepo.save(userDetails);
         log.debug("user detail saved {}",saved);
         return saved;
+    }
+
+    public Page<UserDetails> getUserDetailsByPageRequest(ServerSideGetRowsRequest request){
+        PageRequest pageRequest = request.getPageRequest("id");
+        Specification<UserDetails> specification = new SpecificationBuilder<UserDetails>()
+                .buildSpecificationFromFilters(UserDetails.class, request.getFilterModel());
+        return userDetailsRepo.findAll(specification, pageRequest);
     }
 }
