@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -15,6 +16,11 @@ import java.util.Objects;
 public class DriverDetailsService {
 
     private final DriverDetailsRepo driverDetailsRepo;
+
+    public List<DriverDetails> getAllDriverDetails() {
+        log.info("Fetching all driver details");
+        return driverDetailsRepo.findAll();
+    }
 
     public Long saveDriverDetails(DriverDetails driverDetails) {
         log.info("Saving driver details: {}", driverDetails);
